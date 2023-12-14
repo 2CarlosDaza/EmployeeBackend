@@ -1,4 +1,4 @@
-package com.luce.employee.domain.config.service;
+package com.luce.employee.domain.service;
 
 import com.luce.employee.adapter.out.jpa.EmployeeRepository;
 import com.luce.employee.controller.model.Employee;

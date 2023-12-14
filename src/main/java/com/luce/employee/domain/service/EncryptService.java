@@ -1,4 +1,4 @@
-package com.luce.employee.domain.config.service;
+package com.luce.employee.domain.service;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;

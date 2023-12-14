@@ -2,9 +2,13 @@ package com.luce.employee.adapter.in.rest;
 
 import java.util.List;
 
+import com.luce.employee.application.port.in.FindAllEmployeeQuery;
+import com.luce.employee.application.port.in.FindEmployeeByIdQuery;
+import com.luce.employee.application.port.in.SaveEmployeeCommand;
+import com.luce.employee.application.port.in.UpdateEmployeeCommand;
 import com.luce.employee.controller.model.ApiResponse;
 import com.luce.employee.controller.model.Employee;
-import com.luce.employee.domain.config.service.EmployeeService;
+import com.luce.employee.domain.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,20 +27,28 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeService service;
+	@Autowired
+	FindAllEmployeeQuery findAllEmployeeQuery;
+	@Autowired
+	FindEmployeeByIdQuery findEmployeeByIdQuery;
+	@Autowired
+	SaveEmployeeCommand saveEmployeeCommand;
+	@Autowired
+	UpdateEmployeeCommand updateEmployeeCommand;
 	
 	@GetMapping()
 	public List<Employee> findAll() {
-		return service.findAllEmployees();
+		return findAllEmployeeQuery.execute(FindAllEmployeeQuery.fromModel());
 	}
 	
 	@GetMapping("/{employeeId}")
 	public Employee findById(@PathVariable Integer employeeId) {
-		return service.findById(employeeId);
+		return findEmployeeByIdQuery.execute(FindEmployeeByIdQuery.fromModel(employeeId));
 	}
 	
 	@PutMapping()
 	public ApiResponse update(@RequestBody Employee dto) {
-		Employee responseDto =service.update(dto);
+		Employee responseDto =updateEmployeeCommand.execute(UpdateEmployeeCommand.fromModel(dto));
 		ApiResponse apiResponse;
 		if(responseDto!=null) {
 			apiResponse=ApiResponse.builder()
@@ -54,7 +66,7 @@ public class EmployeeController {
 	}
 	@PostMapping()
 	public ApiResponse create(@RequestBody Employee dto) {
-		Employee responseDto =service.create(dto);
+		Employee responseDto =saveEmployeeCommand.execute(SaveEmployeeCommand.fromModel(dto));
 		ApiResponse apiResponse;
 		if(responseDto!=null) {
 			apiResponse=ApiResponse.builder()
