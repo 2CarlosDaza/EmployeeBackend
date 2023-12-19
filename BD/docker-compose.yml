@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  # database engine service
+  docker-postgre:
+    container_name: docker-postgre
+    image: "postgres"
+    restart: always
+    environment:
+      POSTGRES_DB: employee
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 312123
+    ports:
+      - 5432:5432
+
+  # database admin service
+  adminer:
+    container_name: adminer-employee
+    image: adminer
+    restart: always
+    depends_on:
+      - docker-postgre
+    ports:
+      - 9091:8080
+  

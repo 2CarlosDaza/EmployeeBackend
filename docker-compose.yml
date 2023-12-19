@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  
+  # backend service
+  parking-system-ms:
+    build: .
+    restart: always
+    container_name: employee-app-ms
+    ports:
+      - 8099:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/employee
+      - spring.datasource.username=postgres
+      - spring.datasource.password=312123
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.show-sql=true
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
